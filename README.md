@@ -31,7 +31,6 @@ python dataset_loader.py
 Ensure PostgreSQL is running:
 - Database: privacy_ml
 - User: postgres
-- Password: postgres
 - Port: 5432
 
 ## Features
