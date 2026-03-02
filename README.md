@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Privacy-Preserving ML SaaS Platform
 
 ## Setup Instructions
@@ -38,3 +39,6 @@ Ensure PostgreSQL is running:
 - PostgreSQL with 5 tables (users, datasets, latent_vectors, model_results, privacy_attack_results)
 - React frontend with Login, Register, Dashboard, Dataset Upload pages
 - Local Python module for CSV/Excel/Image loading with basic preprocessing
+=======
+# Privacy-Preserving-using-Autoencodersv2
+>>>>>>> 5bb1cacbef5120b65955a5e0c056cb220a263886
