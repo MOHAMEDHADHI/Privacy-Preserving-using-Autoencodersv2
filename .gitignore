@@ -5,3 +5,5 @@ node_modules/
 venv/
 build/
 dist/
+pgsql/
+*.exe
