@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Encoder Lab - Privacy ML{% endblock %}
+
+{% block content %}
+<style>
+    body { background: #0f1419; }
+    .slider { -webkit-appearance: none; appearance: none; height: 6px; border-radius: 3px; background: #2d3748; outline: none; }
+    .slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%; background: #4299e1; cursor: pointer; }
+    .slider::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #4299e1; cursor: pointer; border: none; }
+</style>
+
+<div class="min-h-screen bg-gray-900 text-gray-100 p-6">
+    <!-- Header -->
+    <div class="max-w-7xl mx-auto mb-8">
+        <h1 class="text-3xl font-bold text-gray-100 mb-2">Phase 2 — Encoder Lab</h1>
+        <div class="h-1 w-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        <!-- Dataset Summary -->
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+            <div class="flex items-center mb-4">
+                <svg class="w-5 h-5 text-blue-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                    <circle cx="10" cy="10" r="8"/>
+                </svg>
+                <h2 class="text-lg font-semibold text-gray-200">Dataset Summary</h2>
+            </div>
+            <div class="grid grid-cols-5 gap-4 text-sm">
+                <div>
+                    <span class="text-gray-400">Dataset:</span>
+                    <span class="text-gray-200 ml-2 font-mono">customer_churn.csv</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Rows:</span>
+                    <span class="text-gray-200 ml-2 font-mono">12,430</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Features:</span>
+                    <span class="text-gray-200 ml-2 font-mono">24</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Target:</span>
+                    <span class="text-blue-400 ml-2 font-mono">churn</span>
+                </div>
+                <div>
+                    <span class="text-gray-400">Protected:</span>
+                    <span class="text-purple-400 ml-2 font-mono">gender, region</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-6">
+            <!-- Encoder Configuration -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <h3 class="text-lg font-semibold text-gray-200 mb-6">Encoder Configuration</h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm text-gray-400">Latent Dimension</label>
+                            <span class="text-gray-200 font-mono" id="latent-val">64</span>
+                        </div>
+                        <input type="range" name="latent_dim" min="8" max="128" value="64" 
+                            class="slider w-full" oninput="document.getElementById('latent-val').textContent = this.value">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-sm text-gray-400 block mb-2">Hidden Layers:</label>
+                            <div class="bg-gray-900 px-4 py-2 rounded border border-gray-700 text-gray-200 font-mono">128</div>
+                        </div>
+                        <div>
+                            <label class="text-sm text-gray-400 block mb-2">Learning Rate:</label>
+                            <div class="bg-gray-900 px-4 py-2 rounded border border-gray-700 text-gray-200 font-mono">0.001</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-gray-400 block mb-2">Epochs:</label>
+                        <div class="bg-gray-900 px-4 py-2 rounded border border-gray-700 text-gray-200 font-mono">50</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Differential Privacy -->
+            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                <h3 class="text-lg font-semibold text-gray-200 mb-6">Differential Privacy</h3>
+                
+                <div class="space-y-6">
+                    <div>
+                        <div class="flex justify-between mb-2">
+                            <label class="text-sm text-gray-400">Noise Sigma</label>
+                            <span class="text-gray-200 font-mono" id="sigma-val">1.2</span>
+                        </div>
+                        <input type="range" name="sigma" min="0" max="2" step="0.1" value="1.2" 
+                            class="slider w-full" oninput="document.getElementById('sigma-val').textContent = this.value">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-sm text-gray-400 block mb-2">Privacy Mode:</label>
+                            <div class="bg-gray-900 px-4 py-2 rounded border border-gray-700 text-gray-200">Basic Noise</div>
+                        </div>
+                        <div>
+                            <label class="text-sm text-gray-400 block mb-2">Privacy Level:</label>
+                            <div class="bg-yellow-900 bg-opacity-30 px-4 py-2 rounded border border-yellow-700 text-yellow-400 font-semibold">Medium</div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-gray-400 block mb-2">Utility Impact:</label>
+                        <div class="bg-gray-900 px-4 py-2 rounded border border-gray-700">
+                            <span class="text-red-400 font-mono">Estimated -8%</span>
+                        </div>
+                    </div>
+
+                    <!-- Mini Chart Placeholder -->
+                    <div class="bg-gray-900 rounded border border-gray-700 p-4 h-24 flex items-end justify-between">
+                        <div class="h-16 w-1 bg-blue-500"></div>
+                        <div class="h-12 w-1 bg-blue-500"></div>
+                        <div class="h-10 w-1 bg-blue-500"></div>
+                        <div class="h-8 w-1 bg-blue-500"></div>
+                        <div class="h-6 w-1 bg-blue-500"></div>
+                        <div class="h-5 w-1 bg-blue-500"></div>
+                        <div class="h-4 w-1 bg-blue-500"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Selection -->
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+            <h3 class="text-lg font-semibold text-gray-200 mb-6">Feature Selection</h3>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-300 mb-3">Available Features</h4>
+                    <div class="bg-gray-900 rounded border border-gray-700 p-4 space-y-2 max-h-48 overflow-y-auto">
+                        <div class="flex items-center text-gray-300 hover:bg-gray-800 p-2 rounded cursor-pointer">
+                            <span class="mr-2">▸</span> age
+                        </div>
+                        <div class="flex items-center text-gray-300 hover:bg-gray-800 p-2 rounded cursor-pointer">
+                            <span class="mr-2">▸</span> salary
+                        </div>
+                        <div class="flex items-center text-gray-300 hover:bg-gray-800 p-2 rounded cursor-pointer">
+                            <span class="mr-2">▸</span> region
+                        </div>
+                        <div class="flex items-center text-gray-300 hover:bg-gray-800 p-2 rounded cursor-pointer">
+                            <span class="mr-2">▸</span> gender
+                        </div>
+                        <div class="flex items-center text-gray-300 hover:bg-gray-800 p-2 rounded cursor-pointer">
+                            <span class="mr-2">▸</span> tenure
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-300 mb-3">Target & Protected</h4>
+                    <div class="bg-gray-900 rounded border border-gray-700 p-4 space-y-3">
+                        <div class="flex items-center text-blue-400">
+                            <span class="mr-2">▸</span> <span class="font-semibold">Target:</span> <span class="ml-2 font-mono">churn</span>
+                        </div>
+                        <div class="flex items-center text-purple-400">
+                            <span class="mr-2">▸</span> <span class="font-semibold">Protected:</span> <span class="ml-2 font-mono">gender, region</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Training Console -->
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-200">Training Console</h3>
+                <span class="text-sm text-gray-400">Training... <span class="font-mono">42 / 60 Epochs</span></span>
+            </div>
+            
+            <div class="bg-gray-900 rounded border border-gray-700 p-2 mb-4">
+                <div class="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded" style="width: 70%"></div>
+            </div>
+
+            <div class="grid grid-cols-3 gap-4">
+                <div class="bg-gray-900 rounded border border-gray-700 p-4">
+                    <div class="text-sm text-gray-400 mb-1">Reconstruction Loss</div>
+                    <div class="text-2xl font-mono text-gray-200">0.024</div>
+                </div>
+                <div class="bg-gray-900 rounded border border-gray-700 p-4">
+                    <div class="text-sm text-gray-400 mb-1">Classification Loss</div>
+                    <div class="text-2xl font-mono text-gray-200">0.112</div>
+                </div>
+                <div class="bg-gray-900 rounded border border-gray-700 p-4">
+                    <div class="text-sm text-gray-400 mb-1">Total Loss</div>
+                    <div class="text-2xl font-mono text-gray-200">0.136</div>
+                </div>
+            </div>
+
+            <div class="flex gap-4 mt-6">
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded font-semibold transition">
+                    Download Latent
+                </button>
+                <button class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2 rounded font-semibold transition">
+                    Send to Cloud
+                </button>
+                <a href="/dashboard" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded font-semibold transition">
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
